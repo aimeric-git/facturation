@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\InvoiceRepository;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
 /**
@@ -15,6 +16,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
  *          "pagination_enabled"= true, 
  *          "pagination_items_per_page" = 4,
  *          "order": {"amount":"desc"}
+ *      },
+ *      normalizationContext={
+ *          "groups"={"invoice:read"}
  *      }
  * )
  * @ApiFilter(
@@ -28,32 +32,38 @@ class Invoice
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"invoice:read", "customer:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"invoice:read", "customer:read"})
      */
     private $amount;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"invoice:read", "customer:read"})
      */
     private $sentAt;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"invoice:read", "customer:read"})
      */
     private $status;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="invoices")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"invoice:read"})
      */
     private $customer;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"invoice:read"})
      */
     private $chrono;
 
@@ -61,6 +71,16 @@ class Invoice
     {
 
         $this->sentAt = new \DateTime(); 
+    }
+
+    /**
+     * permet de récupérer le User du Customer correspondant
+     * @Groups({"invoice:read"})
+     */
+    public function getUser(): User
+    {
+        return $this->customer->getUser();
+
     }
 
     public function getId(): ?int
