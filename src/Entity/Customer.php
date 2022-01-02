@@ -7,13 +7,28 @@ use App\Repository\CustomerRepository;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  * @ApiResource(
+ *      collectionOperations={
+ *          "get", 
+ *          "post"
+ *      },
+ *      itemOperations={
+ *          "get",
+ *          "put",
+ *          "delete"
+ *      },
+ *      subresourceOperations={
+ *          "invoices_get_subresource"={"path"="/clients/{id}/invoice"}  
+ *      },
  *      normalizationContext={
  *          "groups"={"customer:read"}
  *      }
@@ -41,18 +56,27 @@ class Customer
      * @Groups(
      *      {"customer:read", "invoice:read"}
      * )
+     * @NotBlank(message="le prénom du customer est obligatoire")
+     * @Length(min=3, minMessage="Le prénom doit avoir 3 caractères au minimum",
+     *          max=255, maxMessage="Le prénom ne doit pas dépasser 255 caractères")
+     * 
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"customer:read", "invoice:read"})
+     * @NotBlank(message="le nom du customer est obligatoire")
+     * @Length(min=3, minMessage="Le nom doit avoir 3 caractères au minimum",
+     *          max=255, maxMessage="Le nom ne doit pas dépasser 255 caractères")
+     * 
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"customer:read", "invoice:read"})
+     * @NotBlank(message="le mail est obligatoire")
      */
     private $email;
 
@@ -65,6 +89,7 @@ class Customer
     /**
      * @ORM\OneToMany(targetEntity=Invoice::class, mappedBy="customer")
      * @Groups({"customer:read"})
+     * @ApiSubresource()
      */
     private $invoices;
 
