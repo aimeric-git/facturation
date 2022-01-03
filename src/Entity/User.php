@@ -15,7 +15,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *      normalizationContext={"groups"="users:read"}
+ * )
  * @UniqueEntity("email", message="un utilisateur ayant cet adresse email existe déjà")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -24,13 +26,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"customer:read", "invoice:read", "invoices_subresource"})
+     * @Groups({"customer:read", "invoice:read", "invoices_subresource", "users:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"customer:read", "invoice:read", "invoices_subresource"})
+     * @Groups({"customer:read", "invoice:read", "invoices_subresource", "users:read"})
      * @NotBlank(message="l'email doit être renseigné")
      */
     private $email;
@@ -50,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"customer:read", "invoice:read"})
+     * @Groups({"customer:read", "invoice:read", "users:read"})
      * @NotBlank(message="prénom obligatoire")
      */
     private $firstName;
@@ -58,6 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @NotBlank(message="nom obligatoire")
+     * @Groups({"users:read"})
      */
     private $lastName;
 
