@@ -75,7 +75,7 @@ class Invoice
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"invoice:read", "customer:read"})
-     * @DateTime(message="la date doit être au bon format")
+     *
      */
     private $sentAt;
 
@@ -106,7 +106,6 @@ class Invoice
 
     public function __construct()
     {
-
         $this->sentAt = new \DateTime(); 
     }
 
