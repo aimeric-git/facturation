@@ -105,7 +105,7 @@ const InvoicesPage = () => {
                                     <td>{invoice.customer.id}</td>
                                     <td>{invoice.amount}</td>
                                     <td>
-                                        <span className={"badge badge-" + CONST_CLASSES[invoice.status]}> {invoice.status} </span>   
+                                        <span> {invoice.status} </span>   
                                     </td>
                                     <td>{formatDate(invoice.sentAt)}</td>
                                     <td>{invoice.chrono}</td>
