@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Field from '../components/forms/Field';
 import usersAPI from '../services/usersAPI';
 
@@ -43,7 +44,7 @@ const RegisterPage = ({history}) => {
                 console.log("succes--------user créé");
                 setErrors({});
 
-                //TODO: flash success
+                toast.success("Inscription avec succès.");
                 history.replace("/login");
         }catch(error)
         {
@@ -57,6 +58,7 @@ const RegisterPage = ({history}) => {
                     apiErrors[violation.propertyPath] = violation.message
                 })
                 setErrors(apiErrors);
+                toast.error("Des erreurs dans votre formulaire.");
             }
         }
         console.log(user); 

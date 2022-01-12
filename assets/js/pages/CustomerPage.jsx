@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Field from '../components/forms/Field';
 import customersAPI from '../services/customersAPI';
 
@@ -37,10 +38,12 @@ const CustomerPage = ({match, history}) => {
             if(editing)
             {
                 const response = await customersAPI.putCustomers(id, customer);
+                toast.success("Le client a bien été modifié.");
                 history.replace("/customers"); 
             }else
             {
                 const response = await customersAPI.createCustomers(customer);
+                toast.success("Le client a bien été créé.");
                 history.replace("/customers");
             }
             
@@ -54,7 +57,7 @@ const CustomerPage = ({match, history}) => {
                     apiErrors[violation.propertyPath] = violation.message; 
                 }) 
                 setErrors(apiErrors);
-                //TODO : flash notification d'erreur
+                toast.error("Une erreur est survenue.");
             }
         }
     }
@@ -71,6 +74,7 @@ const CustomerPage = ({match, history}) => {
         }catch(error)
         {
             console.log(error.response);
+            toast.error("Impossible de récupérer le client!");
             history.replace("/customers"); 
         }
     }

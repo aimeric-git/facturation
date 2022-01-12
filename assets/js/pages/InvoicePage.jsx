@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import Field from '../components/forms/Field';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Field from '../components/forms/Field';
 import Select from '../components/forms/Select';
 import customersAPI from '../services/customersAPI';
-import axios from 'axios';
 
 const InvoicePage = ({match, history}) => {
 
@@ -39,18 +38,19 @@ const InvoicePage = ({match, history}) => {
             {
                 await customersAPI.putInvoices(id, invoice);
 
-                //TODO notification succès
+                toast.success("La facture a bien été modifiée.");
                 history.replace("/invoices");
             }else
             {
                 await customersAPI.createInvoice(invoice);
                     
-                //TODO notification : succès
+                toast.success("La facture a bien été créée.");
                 history.replace("/invoices");
             }
         }catch(error)
         {
             console.log(error.response);
+            toast.error("Une erreur s'est produite!!");
         }
     }
 
@@ -61,10 +61,11 @@ const InvoicePage = ({match, history}) => {
             const data = await customersAPI.findOneInvoice(id);
             const {customer_id, amount, status} = data;
             setInvoice({customer_id: data.customer.id, amount, status});
-
+            toast.success("Facture récupérée");
         }catch(error)
         {
             console.log("----error fetchInvoice -------", error.response);
+            toast.error("Impossible de charger la facture");
             history.replace("/invoices");
         }
     }
@@ -83,7 +84,7 @@ const InvoicePage = ({match, history}) => {
                         apiErrors[violation.propertyPath] = violation.message; 
                     }) 
                     setErrors(apiErrors);
-                    //TODO : flash notification d'erreur
+                    toast.error("Impossible de charger les clients.");
                 }
        }
     }

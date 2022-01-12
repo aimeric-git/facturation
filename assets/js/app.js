@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter, Redirect, Route, Switch, withRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 // start the Stimulus application
 import '../bootstrap';
 /*
@@ -20,7 +21,7 @@ import InvoicesPage from './pages/InvoicesPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import authAPI from './services/authAPI';
-
+import 'react-toastify/dist/ReactToastify.css';
 
 authAPI.setup();
 
@@ -71,6 +72,17 @@ const App = () => {
                
                 <Route path="/" component={HomePage} />
             </Switch>
+
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                draggable
+                pauseOnHover
+            />
         </HashRouter>
     )
 }

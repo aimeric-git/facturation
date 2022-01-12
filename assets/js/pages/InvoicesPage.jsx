@@ -4,6 +4,8 @@ import InvoicesAPI from '../services/customersAPI';
 import moment from 'moment';
 import Pagination from '../components/Pagination';
 import { NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import TableLoader from '../components/loaders/TableLoader';
 
 
 const InvoicesPage = () => {
@@ -11,11 +13,13 @@ const InvoicesPage = () => {
     const [invoices, setInvoices] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [search, setSearch] = useState(''); 
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         InvoicesAPI.findAllInvoices()
         .then(function(response){
             setInvoices(response.data["hydra:member"]);
+            setLoading(false);
         })
         .catch(function(error){
             console.log((error))
@@ -49,6 +53,7 @@ const InvoicesPage = () => {
             .catch(function(error){
                 setInvoices(originalInvoice);
             })
+        toast.success("La facture a bien été supprimée.");
     }
 
     const itemsPerPage = 3; 
@@ -88,8 +93,9 @@ const InvoicesPage = () => {
                         placeholder="Rechercher... "
                 />
             </div>
-
-            <table className="table table-hover">
+            {
+                !loading && (
+                    <table className="table table-hover">
                 <thead>
                     <tr>
                         <th>Customer_id</th>
@@ -131,6 +137,11 @@ const InvoicesPage = () => {
                     }
                 </tbody>
             </table>
+                )
+            }
+            {
+                loading && <TableLoader />
+            }
 
             <Pagination currentPage={currentPage}
                         onPageChange={handlePageChange}

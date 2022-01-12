@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import Field from '../components/forms/Field';
 import authAPI from '../services/authAPI';
 
@@ -24,10 +25,13 @@ const LoginPage = ({onLogin, history}) => {
             await authAPI.authenticate(credentials);
             setError("");
             onLogin(true);
+
+            toast.success("Vous êtes maintenant connecté.");
             history.replace("/");
         }catch(error)
         {
             setError("Aucun compte ne possède cette adresse ou alors les informations ne correspondent pas");
+            toast.error("Une erreur est survenue.");
         }
     }
 
