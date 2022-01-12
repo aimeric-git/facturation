@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import Pagination from '../components/Pagination';
 import CustomersAPI from '../services/customersAPI';
 
@@ -63,7 +64,12 @@ const CustomersPage = () => {
     
     return (
         <>
-            <h1>Liste des clients</h1>
+            <div className="mb-3 d-flex justify-content-between align-items-center">
+               <h1>Liste des clients</h1>
+                <NavLink to="/customers/new" className="btn btn-primary">
+                    Créer un client
+                </NavLink>
+            </div>
             <div className="form-group">
                 <input type="text"
                         className="form-control"

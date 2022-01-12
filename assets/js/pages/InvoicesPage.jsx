@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import InvoicesAPI from '../services/customersAPI';
 import moment from 'moment';
 import Pagination from '../components/Pagination';
+import { NavLink } from 'react-router-dom';
 
 
 const InvoicesPage = () => {
@@ -73,7 +74,12 @@ const InvoicesPage = () => {
 
     return (
         <>
-            <h1>Liste des factures</h1>
+            <div className="mb-3 d-flex justify-content-between align-items-center">
+               <h1>Liste des factures</h1>
+                <NavLink to="/invoices/new" className="btn btn-primary">
+                    Créer une facture
+                </NavLink>
+            </div>
            
             <div className="form-group">
                 <input type="text"
@@ -110,9 +116,10 @@ const InvoicesPage = () => {
                                     <td>{formatDate(invoice.sentAt)}</td>
                                     <td>{invoice.chrono}</td>
                                     <td>
-                                        <button className="btn btn-primary btn-sm">
-                                            Editer
-                                        </button>
+                                            <NavLink to={"/invoices/" + invoice.id} className="btn btn-primary btn-sm">
+                                                Editer
+
+                                            </NavLink>
                                         <button className="btn btn-danger"
                                                 onClick={() => handleDelete(invoice.id)} >
                                             Supprimer

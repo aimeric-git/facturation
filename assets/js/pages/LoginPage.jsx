@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Field from '../components/forms/Field';
 import authAPI from '../services/authAPI';
 
 const LoginPage = ({onLogin, history}) => {
@@ -34,30 +35,25 @@ const LoginPage = ({onLogin, history}) => {
         <div>
             <h1>Connexion à l'application</h1>
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="username">Adresse email</label>
-                    <input type="email"
-                        value={credentials.username}
-                        onChange={handleChange}
-                        placeholder="Adresse email de connexion"
-                        name="username"
-                        id="username"
-                        className={"form-control" + (error && " is-invalid")} 
-                    />
-                    {
-                        error && <p className="invalid-feedback">{error}</p>
-                    }
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password">Mot de passe</label>
-                    <input type="password"
-                        value={credentials.password}
-                        onChange={handleChange}
-                        placeholder="Mot de passe"
-                        name="password"
-                        id="password"
-                        className="form-control" />
-                </div>
+                <Field 
+                    name="username"
+                    label="Adresse email"
+                    value={credentials.username}
+                    onChange={handleChange}
+                    placeholder="Adresse email de connexion"
+                    type="email"
+                    error={error}                
+                />
+                
+                <Field
+                    name="password"
+                    label="Mot de passe"
+                    value={credentials.password}
+                    onChange={handleChange}
+                    placeholder="Mot de passe"
+                    type="password"
+                />
+                
                 <div className="form-group">
                     <button className="btn btn-success btn-block">Connexion</button>
                 </div>
