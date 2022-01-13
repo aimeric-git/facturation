@@ -1,14 +1,16 @@
 import axios from "axios";
+import { CUSTOMERS_API } from "../config";
+import { INVOICES_API } from "../config";
 
 function findAll() {
     return axios
-    .get(`https://127.0.0.1:8001/api/customers`)
+    .get(CUSTOMERS_API)
     
 }
 
 function findAllInvoices(){
     return axios
-    .get(`https://127.0.0.1:8001/api/invoices`)
+    .get(INVOICES_API)
 }
 
 function deleteCustomer(id) {
@@ -23,35 +25,35 @@ function deleteInvoice(id) {
 
 function findOneCustomer(id) {
     return axios
-        .get("https://127.0.0.1:8001/api/customers/" + id)
+        .get(CUSTOMERS_API + "/" + id)
         .then(response => response.data);
 }
 
 function findOneInvoice(id) {
     return axios
-        .get("https://127.0.0.1:8001/api/invoices/" + id)
+        .get(INVOICES_API + "/" + id)
         .then(response => response.data)
 }
 
 function putCustomers(id, customer) {
     return axios
-        .put("https://127.0.0.1:8001/api/customers/" + id, customer );
+        .put( CUSTOMERS_API + "/" + id, customer );
 }
 
 function putInvoices(id, invoice) {
     return axios
-        .put("https://127.0.0.1:8001/api/invoices/" +id, 
+        .put(INVOICES_API + "/" +id, 
         {...invoice, customer: `/api/customers/${invoice.customer_id}` }
         )
 }
 function createCustomers(customer) {
     return axios
-        .post("https://127.0.0.1:8001/api/customers", customer);
+        .post(CUSTOMERS_API, customer);
 }
 
 function createInvoice(invoice) {
     return axios
-        .post("https://127.0.0.1:8001/api/invoices", 
+        .post(INVOICES_API, 
             {...invoice, customer: `/api/customers/${invoice.customer_id}`});
 }
 

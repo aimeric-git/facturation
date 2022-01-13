@@ -9,7 +9,7 @@ const Navbar = ({isAuthenticated, onLogout, history}) => {
 		authAPI.logout();
 		onLogout(false);
 
-		toast.info("Vous êtes désoramis déconnecté ");
+		toast.info("Vous êtes désormais déconnecté ");
 		history.push("/login");
     }
 
